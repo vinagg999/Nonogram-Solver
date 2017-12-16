@@ -12,9 +12,14 @@ using namespace std;
 
 //2= not know, 1= filled, 0=empty
 
+// ornt=1= horizontal; 2=vertical
+
 int grid[60][60];
 int dim;
 bool check=true;
+
+
+// Initial Leftmost Solver 
 
 vector<int> leftmost(vector<int> val,int sum)
 {
@@ -30,6 +35,8 @@ vector<int> leftmost(vector<int> val,int sum)
 
   return lm;
 }
+
+// Initial Rightmost Solver
 
 vector<int> rightmost(vector<int> val,int sum)
 {
@@ -47,11 +54,12 @@ vector<int> rightmost(vector<int> val,int sum)
   return rm;
 }
 
+// Linesolver Function...Still in progress
 
 void linesolver(vector<int> val, int ornt,int d)
 {
   int sum=0;
-  
+
   for(int i=0;i<val.size();i++)
     sum+=val[i];
 
@@ -81,6 +89,14 @@ cout<<endl;
     if(lm[i]==rm[i]&&lm[i]!=0)
     {
       a[i]=1;
+      if(ornt==1)
+      {
+        grid[d][i]=1;
+      }
+      else
+      {
+        grid[i][d]=1;
+      }
     }
   }
   for(int i=0;i<16;i++)
@@ -89,15 +105,40 @@ cout<<endl;
 }
 
 
+//  Simple Leftmost Solver
+
+vector<int> leftmost(vector<int> val,int sum)
+{
+  vector<int> lm;
+  for(int i=1;i<=val.size();i++)
+  {
+    for(int j=0;j<val[i-1];j++)
+    lm.pb(i);
+    lm.pb(0);
+  }
+  for(int i=0;i<dim-(sum+val.size()-1);i++)
+    lm.pb(0);
+
+  return lm;
+}
 
 
 
+
+// main function
 
 int main()
 {
   freopen("input.txt","r",stdin);
 
-  dim=16;
+  cin>>dim;
+
+  for(int i=0;i<dim;i++)
+  {
+    for(int j=0;j<dim;j++)
+      grid[i][j]=2;
+  }
+
   vector<int> val;
   for(int i=0;i<4;i++)
   {
